@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "rings-342",
+    "name": "24332",
+    "carat": "عيار 24",
+    "price": 3424,
+    "weight": "24",
+    "availability": "متوفر",
+    "shipping": "متوفر شحن",
+    "description": "24234",
+    "category": "rings",
+    "image": "products/rings/342/9.jpg"
+  }
+]
