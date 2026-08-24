@@ -22,5 +22,17 @@
     "description": "34543543543",
     "category": "bracelets",
     "image": "products/bracelets/34543/WhatsApp-Image-2025-09-27-at-13.43.07_0b1533d8.jpg"
+  },
+  {
+    "id": "rings-45453",
+    "name": "35345",
+    "carat": "عيار 24",
+    "price": 53344,
+    "weight": "35345",
+    "availability": "متوفر",
+    "shipping": "متوفر شحن",
+    "description": "345345",
+    "category": "rings",
+    "image": "products/rings/45453/unnamed.png"
   }
 ]
