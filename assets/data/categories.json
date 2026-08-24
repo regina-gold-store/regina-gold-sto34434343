@@ -1,0 +1,8 @@
+[
+  {"id":"rings","name":"خواتم","icon":"ring"},
+  {"id":"necklaces","name":"سلاسل","icon":"sparkles"},
+  {"id":"bracelets","name":"أساور","icon":"circle"},
+  {"id":"earrings","name":"أقراط","icon":"gem"},
+  {"id":"sets","name":"أطقم","icon":"layers"},
+  {"id":"italian-gold","name":"ذهب إيطالي","icon":"star"}
+]
