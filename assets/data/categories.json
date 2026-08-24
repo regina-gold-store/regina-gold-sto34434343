@@ -1,8 +1,3 @@
 [
-  {"id":"rings","name":"خواتم","icon":"ring"},
-  {"id":"necklaces","name":"سلاسل","icon":"sparkles"},
-  {"id":"bracelets","name":"أساور","icon":"circle"},
-  {"id":"earrings","name":"أقراط","icon":"gem"},
-  {"id":"sets","name":"أطقم","icon":"layers"},
-  {"id":"italian-gold","name":"ذهب إيطالي","icon":"star"}
+  {"id":"rings","name":"خواتم"},{"id":"necklaces","name":"سلاسل"},{"id":"bracelets","name":"أساور"},{"id":"earrings","name":"أقراط"},{"id":"sets","name":"أطقم"},{"id":"italian-gold","name":"ذهب إيطالي"},{"id":"ingots","name":"سبائك"},{"id":"coins","name":"عملات ذهبية"},{"id":"pendants","name":"تعليقات"},{"id":"watches","name":"ساعات"}
 ]
