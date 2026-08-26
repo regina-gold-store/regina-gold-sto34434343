@@ -22,26 +22,5 @@
     "description": "345345",
     "category": "rings",
     "image": "products/rings/45453/unnamed.png"
-  },
-  {
-    "id": "rings-11",
-    "name": "kjo",
-    "carat": "عيار 24",
-    "price": 900,
-    "salePrice": 850,
-    "saleEnds": "",
-    "manufacturing": 33,
-    "weight": "6",
-    "availability": "متوفر",
-    "shipping": "متوفر شحن",
-    "customOrder": true,
-    "description": "ovhrf",
-    "category": "rings",
-    "image": "products/rings/11/1787759528021-Screenshot-2025-10-09-065807.png",
-    "images": [
-      "products/rings/11/1787759528021-Screenshot-2025-10-09-065807.png",
-      "products/rings/11/1787759529701-Screenshot-2025-10-09-065848.png",
-      "products/rings/11/1787759531233-Screenshot-2025-10-09-210756.png"
-    ]
   }
 ]
