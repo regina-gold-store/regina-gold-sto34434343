@@ -8,8 +8,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit;
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); exit; }
 
-$token = getenv('TELEGRAM_BOT_TOKEN');
-$chatIds = array_filter(array_map('trim', explode(',', getenv('TELEGRAM_CHAT_IDS') ?: '')));
+$token = getenv('8950862577:AAGZMBt0ZTQW_Y6sVIqdhls7_kUpl4ylcs8');
+$chatIds = array_filter(array_map('trim', explode(',', getenv('8381279697') ?: '')));
 if (!$token || !$chatIds) { http_response_code(500); echo json_encode(['error' => 'Server Telegram secrets are not configured.']); exit; }
 $order = json_decode(file_get_contents('php://input'), true);
 if (!is_array($order) || empty($order['name']) || empty($order['phone']) || empty($order['items'])) { http_response_code(422); echo json_encode(['error' => 'Invalid order.']); exit; }
