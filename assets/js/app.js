@@ -12,11 +12,28 @@ const DEFAULT_STORE = {
   mapEmbed: 'https://www.google.com/maps?q=%D9%85%D8%B5%D8%B1%20%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%20%D8%B4%D8%A7%D8%B1%D8%B9%20%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86%20%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86&output=embed',
   mapLink: 'https://maps.google.com/?q=%D9%85%D8%B5%D8%B1+%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9+%D8%B4%D8%A7%D8%B1%D8%B9+%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86+%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86'
 };
+const FALLBACK_IMAGE = '0.png';
 
 let all = [];
 let cart = [];
 let storeConfig = { ...DEFAULT_STORE };
 const productsStorageKey = 'reginaProductsList';
+
+function normalizeProduct(product = {}) {
+  return {
+    ...product,
+    name: product.name || 'منتج',
+    carat: product.carat || 'عيار 24',
+    price: Number(product.price || 0),
+    salePrice: product.salePrice === '' || product.salePrice === null || typeof product.salePrice === 'undefined'
+      ? ''
+      : Number(product.salePrice),
+    availability: product.availability || 'متوفر',
+    shipping: product.shipping || 'متوفر شحن',
+    pickup: product.pickup || 'استلام من الفرع',
+    description: product.description || 'لا يوجد وصف مضاف لهذا المنتج بعد.'
+  };
+}
 
 function loadSavedProducts() {
   try {
@@ -46,13 +63,18 @@ function saveCart() {
 }
 
 function productImages(product) {
-  return Array.isArray(product.images) && product.images.length ? product.images : [product.image].filter(Boolean);
+  const normalized = normalizeProduct(product);
+  const sources = Array.isArray(normalized.images) && normalized.images.length
+    ? normalized.images
+    : [normalized.image].filter(Boolean);
+  return sources.length ? sources.filter(Boolean) : [FALLBACK_IMAGE];
 }
 
 function salePrice(product) {
-  const price = Number(product.price || 0);
-  const sale = Number(product.salePrice || 0);
-  const active = !product.saleEnds || new Date(product.saleEnds) > new Date();
+  const normalized = normalizeProduct(product);
+  const price = Number(normalized.price || 0);
+  const sale = Number(normalized.salePrice || 0);
+  const active = !normalized.saleEnds || new Date(normalized.saleEnds) > new Date();
   return active && sale > 0 && sale < price ? sale : price;
 }
 
@@ -142,29 +164,29 @@ function renderProducts(items) {
   }
 
   productsRoot.innerHTML = items.map((product) => {
-    const images = productImages(product);
-    const price = salePrice(product);
-    const oldPrice = Number(product.price || 0) > Number(price || 0) ? money(product.price) : '';
-    const tagTxt = product.availability || 'متوفر';
+    const normalized = normalizeProduct(product);
+    const images = productImages(normalized);
+    const price = salePrice(normalized);
+    const oldPrice = Number(normalized.price || 0) > Number(price || 0) ? money(normalized.price) : '';
 
     return `
-      <article class="card reveal" data-detail="${product.id}">
-        <img src="${images[0] || '0.png'}" alt="${product.name}" loading="lazy">
+      <article class="card reveal" data-detail="${normalized.id}">
+        <img src="${images[0] || FALLBACK_IMAGE}" alt="${normalized.name}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}';">
         <div class="card-body">
           <div class="tags">
-            <span class="tag">${product.carat || ''}</span>
-            <span class="tag">${tagTxt}</span>
-            <span class="tag">${product.shipping || 'متوفر شحن'}</span>
+            <span class="tag">${normalized.carat || 'عيار 24'}</span>
+            <span class="tag">${normalized.availability || 'متوفر'}</span>
+            <span class="tag">${normalized.shipping || 'متوفر شحن'}</span>
           </div>
-          <h3>${product.name}</h3>
-          <p class="desc">${product.description || ''}</p>
+          <h3>${normalized.name}</h3>
+          <p class="desc">${normalized.description || 'لا يوجد وصف مضاف لهذا المنتج بعد.'}</p>
           <div class="price">
             ${money(price)}
             ${oldPrice ? `<span class="old-price">${oldPrice}</span>` : ''}
           </div>
           <div class="card-actions">
-            <button class="btn add" data-id="${product.id}" type="button">أضيفي للسلة</button>
-            <button class="btn ghost buy" data-id="${product.id}" type="button">شراء مباشر</button>
+            <button class="btn add" data-id="${normalized.id}" type="button">أضيفي للسلة</button>
+            <button class="btn ghost buy" data-id="${normalized.id}" type="button">شراء مباشر</button>
           </div>
         </div>
       </article>
@@ -279,7 +301,8 @@ function renderCart() {
 
 function showDetail(product) {
   if (!product) return;
-  const images = productImages(product);
+  const normalized = normalizeProduct(product);
+  const images = productImages(normalized);
   const detailImage = $('#detailImage');
   const detailGallery = $('#detailGallery');
   const detailTags = $('#detailTags');
@@ -289,23 +312,26 @@ function showDetail(product) {
 
   if (!detailImage || !detailGallery || !detailTags || !detailDescription || !detailPrice || !detailStock) return;
 
-  detailImage.src = images[0] || '0.png';
-  detailGallery.innerHTML = images.map((src) => `<img src="${src}" alt="${product.name}" loading="lazy">`).join('');
+  detailImage.src = images[0] || FALLBACK_IMAGE;
+  detailImage.onerror = () => { detailImage.src = FALLBACK_IMAGE; };
+  detailGallery.innerHTML = images.map((src) => `<img src="${src}" alt="${normalized.name}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}';">`).join('');
   detailGallery.querySelectorAll('img').forEach((img) => {
     img.onclick = () => { detailImage.src = img.src; };
   });
 
   detailTags.innerHTML = `
-    <span class="tag">${product.carat || ''}</span>
-    <span class="tag">${product.weight || ''}</span>
-    <span class="tag">${product.availability || 'متوفر'}</span>
+    <span class="tag">${normalized.carat || 'عيار 24'}</span>
+    <span class="tag">${normalized.weight || 'وزن غير محدد'}</span>
+    <span class="tag">${normalized.availability || 'متوفر'}</span>
+    <span class="tag">${normalized.shipping || 'متوفر شحن'}</span>
+    <span class="tag">${normalized.pickup || 'استلام من الفرع'}</span>
   `;
 
-  detailDescription.textContent = product.description || '';
-  const currentPrice = salePrice(product);
-  const old = Number(product.price || 0) > Number(currentPrice || 0) ? ` <span class="old-price">${money(product.price)}</span>` : '';
+  detailDescription.textContent = normalized.description || 'لا يوجد وصف مضاف لهذا المنتج بعد.';
+  const currentPrice = salePrice(normalized);
+  const old = Number(normalized.price || 0) > Number(currentPrice || 0) ? ` <span class="old-price">${money(normalized.price)}</span>` : '';
   detailPrice.innerHTML = `${money(currentPrice)}${old}`;
-  detailStock.textContent = product.availability === 'غير متوفر الآن' ? 'غير متوفر الآن يمكنك الطلب المخصص.' : (product.shipping || 'متوفر شحن');
+  detailStock.textContent = normalized.availability === 'غير متوفر الآن' ? 'غير متوفر الآن يمكنك الطلب المخصص.' : (normalized.shipping || 'متوفر شحن');
 
   const modal = $('#detailModal');
   if (modal) modal.classList.add('show');
