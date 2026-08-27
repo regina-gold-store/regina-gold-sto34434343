@@ -1,1 +1,247 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0b0d"><title>Regina Gold | روجينا جولد</title><link rel="icon" href="0.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/style.css"></head><body><div class="top"><div class="container"><span>فرع واحد لخدمتكم</span><a href="tel:01070530886">01070530886</a></div></div><header class="container header"><a class="brand" href="#home"><img src="0.png" alt="Regina Gold"><span>REGINA GOLD</span></a><nav><a href="#home">الرئيسية</a><a href="#collections">المجموعات</a><a href="#shop">تسوقي</a><a href="#contact">الفروع</a></nav><div class="header-actions"><button class="icon-btn" id="theme" aria-label="تبديل المظهر">◐</button><button class="icon-btn" id="cartButton" aria-label="السلة">⌑ <b id="cartCount">0</b></button><button class="icon-btn" id="menu" aria-label="القائمة">☰</button></div></header><aside class="side" id="side"><button class="close" data-sideclose>×</button><a href="#home">الرئيسية</a><a href="#collections">المجموعات</a><a href="#shop">تسوقي الآن</a><a href="#contact">فروع روجينا جولد</a></aside><main><section class="hero" id="home"><div class="hero-content"><span class="eyebrow">REGINA GOLD</span><h1>اختياركِ من ذهب</h1><p>تشكيلات راقية، تجربة تصفح سلسة، وطلب مباشر يصل إليكِ أينما كنتِ.</p><a class="btn" href="#shop">اكتشفي القطع</a></div></section><section class="container" id="collections"><div class="heading"><div><h2>مجموعات مختارة</h2><p>اختاري الفئة التي تناسب ذوقكِ</p></div></div><div class="categories" id="categories"></div></section><section class="container" id="shop"><div class="heading"><div><h2>تسوقي روجينا جولد</h2><p id="resultText">كل القطع المتاحة الآن</p></div></div><div class="tools"><input class="control" id="search" placeholder="ابحثي باسم القطعة أو الوصف"><select class="control" id="categoryFilter"><option value="">كل الفئات</option></select><select class="control" id="caratFilter"><option value="">كل العيارات</option></select><select class="control" id="priceFilter"><option value="">كل الأسعار</option><option value="0-5000">حتى 5,000 ج.م</option><option value="5000-15000">5,000 - 15,000 ج.م</option><option value="15000-">أكثر من 15,000 ج.م</option></select></div><div class="products" id="products"></div></section><section class="perks"><div class="container perk-grid"><article class="perk"><span>◈</span><div><h3>شراء مباشر</h3><p>أضيفي القطع للسلة أو أكملي الطلب فوراً.</p></div></article><article class="perk"><span>◇</span><div><h3>شحن واستلام</h3><p>اختاري الشحن أو الاستلام من الفرع.</p></div></article><article class="perk"><span>◌</span><div><h3>دفع مريح</h3><p>الدفع عند الاستلام والمعاينة أو المحافظ الإلكترونية.</p></div></article><article class="perk"><span>◍</span><div><h3>صيانة وتلميع</h3><p>خدمة صيانة وتلميع لقطع روجينا جولد.</p></div></article></div></section></main><footer class="footer" id="contact"><div class="container footer-grid"><div><a class="brand" href="#home"><img src="0.png" alt="Regina Gold"><span>REGINA GOLD</span></a><p>قطعة ذهب تعكس أسلوبكِ الخاص.</p></div><div><h3>تواصل</h3><a href="tel:01070530886">01070530886</a><a href="https://wa.me/201070530886" target="_blank" rel="noopener">واتساب</a></div><div><h3>فروع روجينا جولد</h3><p>الخصوص، أمام البنزينة القليوبية</p></div></div><div class="container copy">© 2026 Regina Gold</div></footer><div class="overlay" id="cartModal"><div class="dialog"><div class="dialog-head"><h2>سلة التسوق</h2><button class="close" data-close>×</button></div><div id="cartItems"></div><div class="total" id="total"></div><button class="btn" id="checkout">إتمام الطلب</button></div></div><div class="overlay" id="orderModal"><div class="dialog"><div class="dialog-head"><h2>إتمام الطلب</h2><button class="close" data-close>×</button></div><p id="orderIntro"></p><form id="orderForm" class="form"><div class="field"><label>الاسم الكامل</label><input id="name" required></div><div class="field"><label>رقم الهاتف الأساسي</label><input id="phone" inputmode="tel" required></div><div class="field"><label>رقم هاتف آخر (اختياري)</label><input id="phone2" inputmode="tel"></div><div class="field"><label>البريد الإلكتروني (اختياري)</label><input id="email" type="email"></div><div class="field full"><label>العنوان بالتفصيل</label><textarea id="address" required></textarea></div><div class="field"><label>طريقة الدفع</label><select id="payment" required><option value="">اختاري</option><option>الدفع عند الاستلام والمعاينة</option><option>المحافظ الإلكترونية</option></select></div><div class="field"><label>ملاحظات</label><input id="notes"></div><button class="btn full" type="submit">إرسال الطلب</button></form></div></div><script src="assets/js/config.js"></script><script src="assets/js/app.js"></script></body></html>
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0d">
+  <title>Regina Gold | روجينا جولد</title>
+  <link rel="icon" href="0.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/store-extra.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container top-inner">
+      <span>فرع واحد لخدمتكم</span>
+      <a href="tel:01070530886">01070530886</a>
+    </div>
+  </div>
+
+  <header class="container header">
+    <a class="brand" href="#home" aria-label="الرئيسية">
+      <img src="0.png" alt="Regina Gold logo">
+      <span>REGINA GOLD</span>
+    </a>
+
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="#home">الرئيسية</a>
+      <a href="#collections">المجموعات</a>
+      <a href="#shop">تسوقي</a>
+      <a href="#contact">الفروع</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="theme" aria-label="تبديل المظهر">◐</button>
+      <button class="icon-btn" id="cartButton" aria-label="السلة">⌑ <b id="cartCount">0</b></button>
+      <button class="icon-btn" id="menu" aria-label="القائمة">☰</button>
+    </div>
+  </header>
+
+  <aside class="side-panel" id="side">
+    <button class="close" data-sideclose aria-label="إغلاق القائمة">×</button>
+    <a href="#home">الرئيسية</a>
+    <a href="#collections">المجموعات</a>
+    <a href="#shop">تسوقي الآن</a>
+    <a href="#contact">فروع روجينا جولد</a>
+  </aside>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-overlay"></div>
+      <div class="hero-content reveal">
+        <span class="eyebrow">REGINA GOLD</span>
+        <h1>اختيارك من ذهب</h1>
+        <p>تشكيلات راقية تجربة تصفح سلسة وطلب مباشر يصل إليك أينما كنت.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#shop">اكتشفي القطع</a>
+          <a class="btn ghost" href="#contact">زورينا</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container reveal" id="collections">
+      <div class="heading">
+        <div>
+          <h2>مجموعات مختارة</h2>
+          <p>اختاري الفئة التي تناسب ذوقك</p>
+        </div>
+      </div>
+      <div class="categories" id="categories"></div>
+    </section>
+
+    <section class="container reveal" id="shop">
+      <div class="heading">
+        <div>
+          <h2>تسوقي روجينا جولد</h2>
+          <p id="resultText">كل القطع المتاحة الآن</p>
+        </div>
+      </div>
+
+      <div class="shop-tools">
+        <button class="filter-toggle" id="filterToggle" type="button">تصفية <i class="fa-solid fa-sliders"></i></button>
+        <div class="controls" id="filterPanel">
+          <input class="control" id="search" placeholder="ابحثي باسم القطعة أو الوصف">
+          <select class="control" id="categoryFilter">
+            <option value="">كل الفئات</option>
+          </select>
+          <select class="control" id="caratFilter">
+            <option value="">كل العيارات</option>
+          </select>
+          <select class="control" id="priceFilter">
+            <option value="">كل الأسعار</option>
+            <option value="0-3000">حتى 3000</option>
+            <option value="3000-8000">3000 – 8000</option>
+            <option value="8000-15000">8000 – 15000</option>
+            <option value="15000-999999">أكثر من 15000</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="products" id="products"></div>
+    </section>
+
+    <section class="container perks reveal">
+      <div class="perk">
+        <span></span>
+        <h3>منتجات أصلية</h3>
+      </div>
+      <div class="perk">
+        <span></span>
+        <h3>شحن سريع</h3>
+      </div>
+      <div class="perk">
+        <span></span>
+        <h3>دفع آمن</h3>
+      </div>
+      <div class="perk">
+        <span></span>
+        <h3>تخصيص فريد</h3>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer reveal" id="contact">
+    <div class="container footer-grid">
+      <div>
+        <h3>تواصل معنا</h3>
+        <p>للطلب والتخصيص والاستفسار بسرعة.</p>
+        <ul class="footer-list">
+          <li><a href="tel:01070530886">01070530886</a></li>
+          <li><a href="https://wa.me/201070530886" target="_blank" rel="noopener">واتساب</a></li>
+          <li id="storeAddress">مصر الجديدة - شارع التسعين - القاهرة</li>
+        </ul>
+      </div>
+      <div>
+        <h3>موقعنا</h3>
+        <div class="map-wrap">
+          <iframe id="storeMap" title="موقعنا" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="detailModal">
+    <div class="dialog">
+      <div class="dialog-head">
+        <h2 id="detailTitle">تفاصيل المنتج</h2>
+        <button class="close" data-close aria-label="إغلاق التفاصيل">×</button>
+      </div>
+      <img class="detail-main" id="detailImage" alt="">
+      <div class="gallery" id="detailGallery"></div>
+      <div class="tags" id="detailTags"></div>
+      <p class="desc" id="detailDescription"></p>
+      <div class="detail-price" id="detailPrice"></div>
+      <p class="stock-note" id="detailStock"></p>
+      <div class="card-actions">
+        <button class="btn" id="detailAdd" type="button">أضيفي للسلة</button>
+        <button class="btn ghost" id="detailBuy" type="button">شراء مباشر</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="cartModal">
+    <div class="dialog cart-dialog">
+      <div class="dialog-head">
+        <h2>السلة</h2>
+        <button class="close" data-close aria-label="إغلاق السلة">×</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <strong id="total">الإجمالي: 0 ج.م</strong>
+        <button id="checkout" class="btn" type="button">تأكيد الطلب</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="orderModal">
+    <div class="dialog order-dialog">
+      <div class="dialog-head">
+        <h2>تأكيد الطلب</h2>
+        <button class="close" data-close aria-label="إغلاق الطلب">×</button>
+      </div>
+      <form id="orderForm">
+        <div class="field full">
+          <label>اسم العميل</label>
+          <input id="customerName" required placeholder="اسمك بالكامل">
+        </div>
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input id="phone" required type="tel" placeholder="010...">
+        </div>
+        <div class="field">
+          <label>هاتف إضافي</label>
+          <input id="secondaryPhone" type="tel" placeholder="اختياري">
+        </div>
+        <div class="field full">
+          <label>البريد الإلكتروني</label>
+          <input id="email" type="email" placeholder="اختياري">
+        </div>
+        <div class="field">
+          <label>المحافظة</label>
+          <select id="governorate" required>
+            <option value="">اختاري المحافظة</option>
+            <option>القاهرة</option>
+            <option>الجيزة</option>
+            <option>القليوبية</option>
+            <option>الإسكندرية</option>
+            <option>أخرى</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>المدينة / المنطقة</label>
+          <input id="area" required placeholder="مثال: مصر الجديدة">
+        </div>
+        <div class="field full">
+          <label>العنوان بالتفصيل</label>
+          <textarea id="address" required placeholder="العنوان الكامل"></textarea>
+        </div>
+        <div class="field full">
+          <label>طريقة الدفع</label>
+          <select id="payment" required>
+            <option value="الدفع عند الاستلام">الدفع عند الاستلام</option>
+            <option value="تحويل بنكي">تحويل بنكي</option>
+            <option value="فودافون كاش">فودافون كاش</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>ملاحظات</label>
+          <textarea id="notes" placeholder="أي ملاحظات خاصة"></textarea>
+        </div>
+
+        <div class="field full">
+          <label>المنتجات المختارة</label>
+          <p class="mini-intro" id="orderIntro"></p>
+        </div>
+
+        <button class="btn" type="submit">إرسال الطلب</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

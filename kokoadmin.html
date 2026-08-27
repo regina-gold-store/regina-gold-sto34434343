@@ -1,1 +1,243 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Regina Gold | الإدارة</title><link rel="icon" href="0.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/style.css"><style>.admin{max-width:1080px;margin:50px auto}.login{max-width:420px;margin:12vh auto}.box{background:var(--paper);padding:25px;border:1px solid var(--line);border-radius:20px;margin-bottom:18px}.hidden{display:none}.hint{background:var(--card);border-right:3px solid var(--gold);padding:12px;color:var(--muted);font-size:.88rem;line-height:1.8;margin:14px 0}.status{padding:12px;margin-top:14px;border-radius:12px;display:none}.status.ok{display:block;background:#216e3b33;color:#93dba7}.status.error{display:block;background:#a12f2f33;color:#ffb3ac}.inventory{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.item{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--card)}.item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px}.item h3{margin:8px 0}.item small{color:var(--muted)}.item button{margin:7px 4px 0 0}@media(max-width:700px){.inventory{grid-template-columns:1fr}}</style></head><body><main class="container"><section class="login" id="login"><div class="box"><h1>Regina Gold</h1><p>تسجيل دخول الإدارة</p><form id="loginForm" class="field"><label>اسم المستخدم</label><input id="user" required><label>كلمة المرور</label><input id="pass" type="password" required><button class="btn" type="submit">دخول</button></form><p id="loginError"></p></div></section><section class="admin hidden" id="admin"><div class="box"><div class="dialog-head"><div><h1 id="formTitle">إضافة صنف جديد</h1><p>تحكم كامل في المنتجات والعروض والمخزون.</p></div><a class="btn ghost" href="index.html">عرض المتجر</a></div><div class="hint">أدخلي GitHub Token عند الإدارة فقط؛ لا يُحفظ في الجهاز أو الموقع. اضغطي «تحميل المنتجات» قبل تعديل أو حذف أي صنف.</div><div class="form"><div class="field"><label>مالك المستودع</label><input id="owner" value="regina-gold-store" required></div><div class="field"><label>اسم المستودع</label><input id="repo" value="regina-gold-store" required></div><div class="field full"><label>GitHub Token</label><input id="token" type="password" required></div></div><button class="btn" id="loadProducts" type="button">تحميل المنتجات للإدارة</button></div><div class="box"><form id="productForm"><div class="form"><div class="field"><label>الفئة</label><select id="category"><option value="rings">خواتم</option><option value="necklaces">سلاسل</option><option value="bracelets">أساور</option><option value="earrings">أقراط</option><option value="sets">أطقم</option><option value="italian-gold">ذهب إيطالي</option><option value="ingots">سبائك</option><option value="coins">عملات ذهبية</option><option value="pendants">تعليقات</option><option value="watches">ساعات</option></select></div><div class="field"><label>رقم الصنف</label><input id="number" inputmode="numeric" required></div><div class="field"><label>اسم القطعة</label><input id="name" required></div><div class="field"><label>العيار</label><select id="carat"><option>عيار 24</option><option>عيار 22</option><option>عيار 21</option><option>عيار 18</option><option>عيار 14</option><option>عيار 12</option><option>ذهب إيطالي</option></select></div><div class="field"><label>السعر بالجنيه</label><input id="price" type="number" min="0" required></div><div class="field"><label>سعر العرض (اختياري)</label><input id="salePrice" type="number" min="0"></div><div class="field"><label>ينتهي العرض في</label><input id="saleEnds" type="datetime-local"></div><div class="field"><label>المصنعية (اختياري)</label><input id="manufacturing" type="number" min="0"></div><div class="field"><label>الوزن بالجرام</label><input id="weight" type="number" min="0" step="0.01"></div><div class="field"><label>المخزون</label><select id="availability"><option value="متوفر">متوفر</option><option value="غير متوفر الآن">غير متوفر الآن</option><option value="متاح للطلب">متاح للطلب</option></select></div><div class="field"><label>الشحن</label><select id="shipping"><option value="متوفر شحن">متوفر شحن</option><option value="استلام من الفرع">استلام من الفرع</option></select></div><div class="field"><label>الطلب المخصص عند النفاد</label><select id="customOrder"><option value="true">متاح</option><option value="false">غير متاح</option></select></div><div class="field full"><label>وصف القطعة</label><textarea id="description"></textarea></div><div class="field full"><label>صور القطعة — اختاري أكثر من صورة</label><input id="images" type="file" accept="image/*" multiple></div></div><p class="hint">عند تعديل منتج، الصور الحالية تبقى كما هي؛ أضيفي صوراً جديدة فقط إن احتجتِ.</p><button class="btn" type="submit">حفظ ونشر الصنف</button><button class="btn ghost" id="resetForm" type="button">إضافة صنف جديد</button></form><div class="status" id="status"></div></div><div class="box"><h2>المنتجات الحالية</h2><div class="inventory" id="inventory"><p>حمّلي المنتجات للبدء.</p></div></div></section></main><script src="assets/js/admin.js"></script></body></html>
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Regina Gold | الإدارة</title>
+  <link rel="icon" href="0.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/store-extra.css">
+  <style>
+    body { min-height: 100vh; }
+    .admin-shell { max-width: 1200px; margin: 36px auto; padding: 0 16px 40px; }
+    .admin-login { max-width: 480px; margin: 10vh auto 0; }
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); }
+    .panel-body { padding: 24px; }
+    .field { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .field label { color: var(--muted); font-weight: 700; }
+    .field input, .field select, .field textarea {
+      width: 100%; border: 1px solid var(--line); background: rgba(255,255,255,.01); color: var(--text);
+      border-radius: 14px; padding: 12px 14px; outline: none; transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(220,174,85,.12); }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .toolbar .right { display: flex; gap: 12px; flex-wrap: wrap; }
+    .status { padding: 13px 16px; border-radius: 14px; display: none; margin-top: 12px; }
+    .status.ok { display: block; background: rgba(33,110,59,.18); color: #b6e7c9; }
+    .status.error { display: block; background: rgba(161,47,47,.2); color: #f9c1b6; }
+    .inventory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .item { background: rgba(255,255,255,.01); border: 1px solid var(--line); border-radius: 18px; padding: 12px; }
+    .item img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+    .item h3 { margin: 10px 0 8px; }
+    .item small { color: var(--muted); display: block; line-height: 1.7; }
+    .item-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .preview-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    .img-preview { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+    .img-preview img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .full-width { grid-column: 1 / -1; }
+    .hidden { display: none !important; }
+    @media (max-width: 760px) {
+      .inventory, .two-col, .preview-grid { grid-template-columns: 1fr; }
+      .toolbar { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <main class="admin-shell">
+    <section class="admin-login panel" id="login">
+      <div class="panel-body">
+        <h1>تسجيل دخول الإدارة</h1>
+        <p>لوحة تحكم روجينا جولد</p>
+        <form id="loginForm" class="field">
+          <div class="field">
+            <label>اسم المستخدم</label>
+            <input id="user" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label>كلمة المرور</label>
+            <input id="pass" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="btn" type="submit">دخول</button>
+        </form>
+        <p id="loginError" class="error-text"></p>
+      </div>
+    </section>
+
+    <section class="hidden" id="admin">
+      <div class="toolbar">
+        <div>
+          <h1>لوحة التحكم</h1>
+          <p>إدارة المنتجات العنوان والرسائل عبر تيليجرام.</p>
+        </div>
+        <div class="right">
+          <button class="btn ghost" id="logoutBtn" type="button">تسجيل خروج</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body">
+          <div class="two-col">
+            <div class="field">
+              <label>مالك المستودع</label>
+              <input id="owner" value="regina-gold-store" required>
+            </div>
+            <div class="field">
+              <label>اسم المستودع</label>
+              <input id="repo" value="regina-gold-store" required>
+            </div>
+            <div class="field full-width">
+              <label>GitHub Token</label>
+              <input id="token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <h3>إعدادات المتجر</h3>
+            <button class="btn" id="saveStoreConfig" type="button">حفظ إعدادات المتجر</button>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label>اسم المتجر</label>
+              <input id="storeName" value="Regina Gold">
+            </div>
+            <div class="field">
+              <label>رقم الهاتف</label>
+              <input id="storePhone" value="01070530886">
+            </div>
+            <div class="field full-width">
+              <label>العنوان</label>
+              <input id="storeAddress" value="مصر الجديدة - شارع التسعين - القاهرة">
+            </div>
+            <div class="field full-width">
+              <label>رابط Google Maps</label>
+              <input id="storeMapLink" value="https://maps.google.com/?q=%D9%85%D8%B5%D8%B1+%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9+%D8%B4%D8%A7%D8%B1%D8%B9+%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86+%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86">
+            </div>
+            <div class="field full-width">
+              <label>رابط Embed Maps</label>
+              <input id="storeMapEmbed" value="https://www.google.com/maps?q=%D9%85%D8%B5%D8%B1%20%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%20%D8%B4%D8%A7%D8%B1%D8%B9%20%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86%20%D8%A7%D9%84%D8%AA%D8%B3%D8%B9%D9%8A%D9%86&output=embed">
+            </div>
+            <div class="field full-width">
+              <label>تيليجرام Bot Token</label>
+              <input id="telegramToken" type="password" placeholder="Bot token">
+            </div>
+            <div class="field full-width">
+              <label>أرقام Chat IDs مفصولة بفواصل</label>
+              <input id="telegramChatIds" placeholder="5688540108,8381279697">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <div class="panel-body">
+          <div class="toolbar">
+            <div>
+              <h2 id="formTitle">إضافة صنف جديد</h2>
+            </div>
+            <div class="right">
+              <button class="btn" id="loadProducts" type="button">تحميل المنتجات</button>
+              <button class="btn ghost" id="resetForm" type="button">إعادة تعيين</button>
+            </div>
+          </div>
+
+          <form id="productForm">
+            <div class="two-col">
+              <div class="field">
+                <label>الفئة</label>
+                <select id="category" required>
+                  <option value="rings">خواتم</option>
+                  <option value="necklaces">سلاسل</option>
+                  <option value="bracelets">أساور</option>
+                  <option value="earrings">أقراط</option>
+                  <option value="sets">أطقم</option>
+                  <option value="italian-gold">ذهب إيطالي</option>
+                  <option value="ingots">سبائك</option>
+                  <option value="coins">عملات ذهبية</option>
+                  <option value="pendants">تعليقات</option>
+                  <option value="watches">ساعات</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>رقم الصنف</label>
+                <input id="number" required placeholder="123">
+              </div>
+              <div class="field">
+                <label>اسم المنتج</label>
+                <input id="name" required>
+              </div>
+              <div class="field">
+                <label>العيار</label>
+                <input id="carat" placeholder="عيار 24">
+              </div>
+              <div class="field">
+                <label>السعر</label>
+                <input id="price" type="number" required min="0">
+              </div>
+              <div class="field">
+                <label>سعر الخصم</label>
+                <input id="salePrice" type="number" min="0" placeholder="اختياري">
+              </div>
+              <div class="field">
+                <label>تاريخ انتهاء العرض</label>
+                <input id="saleEnds" type="date">
+              </div>
+              <div class="field">
+                <label>التصنيع</label>
+                <input id="manufacturing" type="number" placeholder="سنة">
+              </div>
+              <div class="field">
+                <label>الوزن</label>
+                <input id="weight" placeholder="مثال: 2.5 جرام">
+              </div>
+              <div class="field">
+                <label>الحالة</label>
+                <select id="availability">
+                  <option value="متوفر">متوفر</option>
+                  <option value="غير متوفر الآن">غير متوفر الآن</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>الشحن</label>
+                <input id="shipping" value="متوفر شحن">
+              </div>
+              <div class="field">
+                <label>طلب شخصي</label>
+                <select id="customOrder">
+                  <option value="true">مسموح</option>
+                  <option value="false">غير مسموح</option>
+                </select>
+              </div>
+              <div class="field full-width">
+                <label>الوصف</label>
+                <textarea id="description" rows="4" required></textarea>
+              </div>
+              <div class="field full-width">
+                <label>صور المنتج (حتى 8 صور)</label>
+                <input id="images" type="file" accept="image/*" multiple>
+                <div class="preview-grid" id="imagePreview"></div>
+              </div>
+            </div>
+            <button class="btn" type="submit">حفظ المنتج</button>
+          </form>
+          <div id="status" class="status"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <div class="panel-body">
+          <h3>المنتجات الحالية</h3>
+          <div class="inventory" id="inventory"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
