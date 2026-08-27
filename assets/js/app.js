@@ -93,9 +93,19 @@ async function initStoreConfig() {
   }
 }
 
+function syncThemeButton() {
+  const themeButton = $('#theme');
+  if (!themeButton) return;
+  const icon = themeButton.querySelector('i');
+  if (!icon) return;
+  icon.className = document.body.classList.contains('light') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+}
+
 function loadTheme() {
   const theme = localStorage.getItem('reginaTheme');
-  if (theme === 'light') document.body.classList.add('light');
+  const isLight = theme === 'light';
+  document.body.classList.toggle('light', isLight);
+  syncThemeButton();
 }
 
 function renderCategories(categories) {
@@ -402,10 +412,11 @@ async function init() {
   const categories = categoriesResponse.ok ? await categoriesResponse.json() : [];
   const storedProducts = loadSavedProducts();
   const fetchedProducts = productsResponse.ok ? await productsResponse.json() : [];
-  all = storedProducts.length ? storedProducts : fetchedProducts;
 
-  if (Array.isArray(all) && all.length) {
-    localStorage.setItem(productsStorageKey, JSON.stringify(all));
+  all = storedProducts.length ? storedProducts : (Array.isArray(fetchedProducts) ? fetchedProducts : []);
+
+  if (!storedProducts.length && Array.isArray(fetchedProducts)) {
+    localStorage.setItem(productsStorageKey, JSON.stringify(fetchedProducts));
   }
 
   const categoryFilter = $('#categoryFilter');
@@ -437,8 +448,10 @@ async function init() {
   const themeButton = $('#theme');
   if (themeButton) {
     themeButton.onclick = () => {
-      document.body.classList.toggle('light');
-      localStorage.setItem('reginaTheme', document.body.classList.contains('light') ? 'light' : 'dark');
+      const isLight = !document.body.classList.contains('light');
+      document.body.classList.toggle('light', isLight);
+      localStorage.setItem('reginaTheme', isLight ? 'light' : 'dark');
+      syncThemeButton();
     };
   }
 

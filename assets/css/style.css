@@ -25,6 +25,45 @@ body.light {
   --shadow: 0 22px 50px rgba(111, 84, 32, 0.12);
 }
 
+body.light .header,
+body.light .top-bar,
+body.light .site-footer,
+body.light .category,
+body.light .card,
+body.light .panel,
+body.light .item,
+body.light .dialog,
+body.light .side-panel,
+body.light .perk,
+body.light .control,
+body.light .field input,
+body.light .field select,
+body.light .field textarea,
+body.light .icon-btn {
+  background: var(--paper);
+  color: var(--text);
+}
+
+body.light .control,
+body.light .field input,
+body.light .field select,
+body.light .field textarea {
+  border-color: var(--line);
+}
+
+body.light .hero {
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,255,255,0.52)), url('0.png');
+}
+
+body.light .btn.ghost {
+  color: var(--text);
+  border-color: var(--line);
+}
+
+body.light .overlay {
+  background: rgba(30, 24, 17, 0.38);
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -106,14 +145,31 @@ img { max-width: 100%; display: block; }
   background: var(--paper);
   color: var(--text);
   border: 1px solid var(--line);
-  display: grid;
-  place-items: center;
-  transition: transform .2s ease, border-color .2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform .2s ease, border-color .2s ease, background .25s ease, color .25s ease;
+}
+
+.icon-btn i {
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 .icon-btn:hover {
   transform: translateY(-2px);
   border-color: var(--gold);
+}
+
+.theme-btn, .cart-btn, .menu-btn {
+  min-width: 42px;
+  padding: 0 10px;
+}
+
+.cart-btn b {
+  font-size: 0.72rem;
+  color: var(--goldlite);
 }
 
 .hero {
