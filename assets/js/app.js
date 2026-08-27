@@ -17,6 +17,7 @@ const FALLBACK_IMAGE = '0.png';
 let all = [];
 let cart = [];
 let storeConfig = { ...DEFAULT_STORE };
+let currentCategories = [];
 const productsStorageKey = 'reginaProductsList';
 
 function normalizeProduct(product = {}) {
@@ -134,14 +135,21 @@ function renderCategories(categories) {
   const container = $('#categories');
   if (!container) return;
 
+  currentCategories = Array.isArray(categories) ? categories : [];
   const icons = ['fa-solid fa-ring', 'fa-solid fa-link', 'fa-solid fa-gem', 'fa-regular fa-gem', 'fa-solid fa-layer-group', 'fa-solid fa-star', 'fa-solid fa-bars-staggered', 'fa-solid fa-coins', 'fa-solid fa-heart', 'fa-regular fa-clock'];
 
-  container.innerHTML = categories.map((category, index) => `
-    <a class="category reveal" href="#shop" data-cat="${category.id}">
-      <span class="icon"><i class="${icons[index] || 'fa-solid fa-gem'}"></i></span>
-      <span>${category.name}</span>
-    </a>
-  `).join('');
+  container.innerHTML = currentCategories.map((category, index) => {
+    const count = all.filter((product) => product.category === category.id).length;
+    return `
+      <a class="category reveal" href="#shop" data-cat="${category.id}">
+        <span class="icon"><i class="${icons[index] || 'fa-solid fa-gem'}"></i></span>
+        <div>
+          <span class="category-label">${category.name}</span>
+          <small class="category-count">${count} قطعة</small>
+        </div>
+      </a>
+    `;
+  }).join('');
 
   document.querySelectorAll('[data-cat]').forEach((button) => {
     button.onclick = () => {
@@ -429,6 +437,17 @@ $('#orderForm').onsubmit = async (event) => {
   alert('تم إرسال الطلب بنجاح وسنقوم بالتواصل معك في أقرب وقت.');
 };
 
+function reloadCatalogFromStorage() {
+  const storedProducts = loadSavedProducts();
+  const normalized = Array.isArray(storedProducts) ? storedProducts.map(normalizeProduct) : [];
+  all = normalized;
+  if (currentCategories.length) {
+    renderCategories(currentCategories);
+  }
+  filterProducts();
+  renderCart();
+}
+
 async function init() {
   loadTheme();
   await initStoreConfig();
@@ -439,11 +458,18 @@ async function init() {
   const storedProducts = loadSavedProducts();
   const fetchedProducts = productsResponse.ok ? await productsResponse.json() : [];
 
-  all = storedProducts.length ? storedProducts : (Array.isArray(fetchedProducts) ? fetchedProducts : []);
-
-  if (!storedProducts.length && Array.isArray(fetchedProducts)) {
-    localStorage.setItem(productsStorageKey, JSON.stringify(fetchedProducts));
+  if (Array.isArray(storedProducts) && storedProducts.length) {
+    all = storedProducts.map(normalizeProduct);
+    localStorage.setItem(productsStorageKey, JSON.stringify(all));
+  } else if (Array.isArray(fetchedProducts) && fetchedProducts.length) {
+    all = fetchedProducts.map(normalizeProduct);
+    localStorage.setItem(productsStorageKey, JSON.stringify(all));
+  } else {
+    all = [];
+    localStorage.setItem(productsStorageKey, JSON.stringify([]));
   }
+
+  currentCategories = categories;
 
   const categoryFilter = $('#categoryFilter');
   const caratFilter = $('#caratFilter');
@@ -523,6 +549,16 @@ async function init() {
   }, { threshold: 0.12 });
 
   revealItems.forEach((item) => observer.observe(item));
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === productsStorageKey) {
+      reloadCatalogFromStorage();
+    }
+  });
+
+  window.addEventListener('regina-products-updated', () => {
+    reloadCatalogFromStorage();
+  });
 }
 
 window.addEventListener('load', init);

@@ -287,6 +287,18 @@ img { max-width: 100%; display: block; }
   transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 
+.category-label {
+  display: block;
+  font-weight: 700;
+}
+
+.category-count {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
 .category:hover {
   transform: translateY(-6px);
   border-color: rgba(220,174,85,0.6);

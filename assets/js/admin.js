@@ -144,7 +144,9 @@ function readProductsLocal() {
 }
 
 function persistProductsLocal(list) {
-  localStorage.setItem(productsStorageKey, JSON.stringify(list || []));
+  const normalized = Array.isArray(list) ? list : [];
+  localStorage.setItem(productsStorageKey, JSON.stringify(normalized));
+  window.dispatchEvent(new CustomEvent('regina-products-updated', { detail: normalized }));
 }
 
 function readStoreConfigFromLocal() {
@@ -455,6 +457,25 @@ async function remove(id) {
 }
 
 $('#saveStoreConfig').onclick = saveStoreConfig;
+
+$('#clearProducts').onclick = async () => {
+  if (!confirm('هل تريد حذف جميع المنتجات من المتجر؟')) return;
+
+  products = [];
+  persistProductsLocal(products);
+  renderInventory();
+  msg('تم حذف جميع المنتجات من المتجر.');
+
+  try {
+    const current = await getList();
+    const remoteNext = [];
+    if (current.sha && getToken()) {
+      await saveList(remoteNext, current.sha, 'Clear all products');
+    }
+  } catch (error) {
+    msg(`تم حذف المنتجات من الواجهة لكن لم يتم تحديث المستودع: ${error.message}`, true);
+  }
+};
 
 window.onload = async () => {
   applyStoreConfigForm(readStoreConfigFromLocal());
